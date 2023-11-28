@@ -14,11 +14,12 @@ module.exports = {
     extend: {
       colors: {
         'water-blue': '#222653',
-      }
+      },
     },
   },
   plugins: [
     require("daisyui"),
+    require('@headlessui/tailwindcss'),
     plugin(function ({ addBase, theme }) {
       addBase({
         'h1': { fontSize: theme('fontSize.2xl'), fontWeight: theme('fontWeight.bold') },

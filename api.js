@@ -10,6 +10,9 @@ const server = http.createServer((req, res) => {
     const river_sensor_data = require('./river_sensor_data.json');
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET');
+    res.setHeader('Access-Control-Max-Age', 2592000);
     res.end(JSON.stringify(river_sensor_data));
   } else {
     res.statusCode = 404;

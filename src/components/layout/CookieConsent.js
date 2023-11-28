@@ -17,22 +17,22 @@ const CookieConsent = () => {
   };
 
   useEffect(() => {
-    console.log(cookies.cookieConsent);
     if (cookies.cookieConsent) {
       setIsShowing(false);
     } else {
-      setTimeout(() => { setIsShowing(true); }, 0); // Force async so Transition fades into view on first load
+      setIsShowing(true);
     }
   }, [cookies.cookieConsent]);
 
   return (
     <Transition
       className="fixed bottom-12 left-4 right-4 rounded-lg shadow-lg bg-info text-info-content container"
+      appear={true}
       show={isShowing}
       enter="transition-opacity duration-1000"
       enterFrom="opacity-0"
       enterTo="opacity-100"
-      leave="transition-opacity duration-350"
+      leave="transition-opacity duration-700"
       leaveFrom="opacity-100"
       leaveTo="opacity-0"
     >
