@@ -1,11 +1,33 @@
 /** @type {import('tailwindcss').Config} */
+
+const plugin = require('tailwindcss/plugin');
+
 module.exports = {
+  darkMode: 'class',
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    container: {
+      center: true,
+    },
+    extend: {
+      colors: {
+        'water-blue': '#222653',
+      }
+    },
   },
-  plugins: [require("daisyui")],
+  plugins: [
+    require("daisyui"),
+    plugin(function ({ addBase, theme }) {
+      addBase({
+        'h1': { fontSize: theme('fontSize.2xl'), fontWeight: theme('fontWeight.bold') },
+        'h2': { fontSize: theme('fontSize.xl') },
+        'h3': { fontSize: theme('fontSize.lg') },
+      });
+    })],
+  daisyui: {
+    themes: ["winter", "night"],
+  },
 }
 
