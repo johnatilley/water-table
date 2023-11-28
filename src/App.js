@@ -3,8 +3,7 @@ import Footer from './components/layout/Footer';
 import CookieConsent from './components/layout/CookieConsent';
 import { Routes, Route } from 'react-router-dom';
 
-import WaterTable from './components/modules/WaterTable';
-
+import { SensorViewer } from './components/modules/SensorViewer';
 import CookiePolicy from './components/pages/CookiePolicy';
 import NotFound from './components/pages/NotFound';
 
@@ -21,7 +20,7 @@ const App = () => {
       <Header />
       <main className="grow">
         <Routes>
-          <Route path="/" element={<WaterTable />} />
+          <Route path="/" element={<SensorViewer />} />
           <Route path="/cookie-policy" element={<CookiePolicy />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
