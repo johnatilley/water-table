@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import AnimateHeight from 'react-animate-height';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
 
+import SensorViewerContext from "../SensorViewerContext";
+
 const SensorViewerFilter = () => {
+  const { sensorFilter, setSensorFilter, downloadedSensorData } = useContext(SensorViewerContext);
   const [open, setOpen] = useState(false);
 
   return (

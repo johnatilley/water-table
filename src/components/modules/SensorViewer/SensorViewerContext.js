@@ -7,6 +7,8 @@ const SensorViewerContext = createContext({
   setProgress: () => {},
   sensorFilter: [],
   setSensorFilter: () => {},
+  sensorPaging: [],
+  setSensorPaging: () => {},
   sensorData: [],
   setSensorData: () => {},
   downloadedSensorData: [],

@@ -11,7 +11,7 @@ import DarkModeToggle from "./DarkModeToggle";
  */
 const Header = () => {
   return (
-    <header className="bg-water-blue">
+    <header className="sticky top-0 z-10 bg-water-blue">
       <div className="container py-4 flex justify-between items-center">
         <a href="/">
           <img src={logoWhite} className="max-w-xs" alt="Water Table" />
