@@ -13,8 +13,8 @@ const Header = () => {
   return (
     <header className="sticky top-0 z-10 bg-water-blue">
       <div className="container py-4 flex justify-between items-center">
-        <a href="/">
-          <img src={logoWhite} className="max-w-xs" alt="Water Table" />
+        <a href="/" className="mr-4">
+          <img src={logoWhite} className="w-full max-w-xs" alt="Water Table" />
         </a>
         <DarkModeToggle />
       </div>

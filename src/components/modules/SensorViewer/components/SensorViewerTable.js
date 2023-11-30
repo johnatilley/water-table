@@ -50,8 +50,8 @@ const SensorViewerTable = () => {
   };
 
   return (
-    <>
-      <div className="flex justify-end mb-2">
+    <div className="relative">
+      <div className="flex justify-center mb-4 lg:absolute bottom-full left-0">
         <Menu as="div" className="relative inline-block">
           <Menu.Button className="btn btn-primary">
             Add columns
@@ -83,69 +83,71 @@ const SensorViewerTable = () => {
           </Transition>
         </Menu>
       </div>
-      <table className="table table-zebra text-center">
-        <thead>
-          <tr>
-            <th className="text-lg cursor-pointer">
-              <span className="link-primary" onClick={() => handleSort("id")}>ID <FontAwesomeIcon
-                icon={sensorPaging.sortBy === "id" ? sensorPaging.sortDirection === "asc" ? faSortUp : faSortDown : faSort} /></span>
-            </th>
-            <th className="text-lg cursor-pointer">
-              <span className="link-primary" onClick={() => handleSort("sensorId")}>Sensor ID <FontAwesomeIcon
-                icon={sensorPaging.sortBy === "sensorId" ? sensorPaging.sortDirection === "asc" ? faSortUp : faSortDown : faSort} /></span>
-            </th>
-            <th className="text-lg cursor-pointer">
-              <span className="link-primary" onClick={() => handleSort("direction")}>Direction <FontAwesomeIcon
-                icon={sensorPaging.sortBy === "direction" ? sensorPaging.sortDirection === "asc" ? faSortUp : faSortDown : faSort} /></span>
-            </th>
-            <th className="text-lg cursor-pointer">
-              <span className="link-primary" onClick={() => handleSort("transmittedAt")}>Date and Time <FontAwesomeIcon
-                icon={sensorPaging.sortBy === "transmittedAt" ? sensorPaging.sortDirection === "asc" ? faSortUp : faSortDown : faSort} /></span>
-            </th>
-            <th className="text-lg cursor-pointer">
-              <span className="link-primary" onClick={() => handleSort("latitude")}>Latitude <FontAwesomeIcon
-                icon={sensorPaging.sortBy === "latitude" ? sensorPaging.sortDirection === "asc" ? faSortUp : faSortDown : faSort} /></span>
-            </th>
-            <th className="text-lg cursor-pointer">
-              <span className="link-primary" onClick={() => handleSort("longitude")}>Longitude <FontAwesomeIcon
-                icon={sensorPaging.sortBy === "longitude" ? sensorPaging.sortDirection === "asc" ? faSortUp : faSortDown : faSort} /></span>
-            </th>
-            {addedColumns.map((column) => (
-              <th key={column.name} className="text-lg cursor-pointer">
-                <span className="link-primary" onClick={() => handleSort(column.name)}>{column.label} <FontAwesomeIcon
-                  icon={sensorPaging.sortBy === column.name ? sensorPaging.sortDirection === "asc" ? faSortUp : faSortDown : faSort} /></span>
-                {" "}
-                <span className="link-accent" onClick={() => removeColumn(column)}><FontAwesomeIcon
-                  icon={faCircleXmark} /></span>
+      <div className="overflow-x-auto pt-4">
+        <table className="table table-zebra table-xs text-center mb-8">
+          <thead>
+            <tr>
+              <th className="lg:text-lg cursor-pointer">
+                <span className="link-primary" onClick={() => handleSort("id")}>ID <FontAwesomeIcon
+                  icon={sensorPaging.sortBy === "id" ? sensorPaging.sortDirection === "asc" ? faSortUp : faSortDown : faSort} /></span>
               </th>
-            ))}
-
-          </tr>
-        </thead>
-        <tbody onMouseLeave={handleMouseLeave}>
-          {sensorData.map((item) => (
-            <tr className="hover" key={item.id}
-              onMouseMove={e => { handleMouseMove(e, item); }}>
-              <td>{item.id.slice(0, 18)}...</td>
-              <td>{item.sensorId.slice(0, 18)}...</td>
-              <td>{item.direction}</td>
-              <td>{new Date(item.transmittedAt.iso).toLocaleString()}</td>
-              <td>{item.latitude}</td>
-              <td>{item.longitude}</td>
+              <th className="lg:text-lg cursor-pointer">
+                <span className="link-primary" onClick={() => handleSort("sensorId")}>Sensor ID <FontAwesomeIcon
+                  icon={sensorPaging.sortBy === "sensorId" ? sensorPaging.sortDirection === "asc" ? faSortUp : faSortDown : faSort} /></span>
+              </th>
+              <th className="lg:text-lg cursor-pointer">
+                <span className="link-primary" onClick={() => handleSort("direction")}>Direction <FontAwesomeIcon
+                  icon={sensorPaging.sortBy === "direction" ? sensorPaging.sortDirection === "asc" ? faSortUp : faSortDown : faSort} /></span>
+              </th>
+              <th className="lg:text-lg cursor-pointer">
+                <span className="link-primary" onClick={() => handleSort("transmittedAt")}>Date and Time <FontAwesomeIcon
+                  icon={sensorPaging.sortBy === "transmittedAt" ? sensorPaging.sortDirection === "asc" ? faSortUp : faSortDown : faSort} /></span>
+              </th>
+              <th className="lg:text-lg cursor-pointer">
+                <span className="link-primary" onClick={() => handleSort("latitude")}>Latitude <FontAwesomeIcon
+                  icon={sensorPaging.sortBy === "latitude" ? sensorPaging.sortDirection === "asc" ? faSortUp : faSortDown : faSort} /></span>
+              </th>
+              <th className="lg:text-lg cursor-pointer">
+                <span className="link-primary" onClick={() => handleSort("longitude")}>Longitude <FontAwesomeIcon
+                  icon={sensorPaging.sortBy === "longitude" ? sensorPaging.sortDirection === "asc" ? faSortUp : faSortDown : faSort} /></span>
+              </th>
               {addedColumns.map((column) => (
-                <td key={item.id + "-" + column.name}>
-                  {column.name === "alarm" && (item.data.alarm ? "Yes" : "No")}
-                  {column.name === "state" && item.data.state}
-                  {column.name !== "state" && column.name !== "alarm" && typeof item.data[column.name].value !== "undefined" && item.data[column.name].value + " " + item.data[column.name].unit}
-                </td>
+                <th key={column.name} className="lg:text-lg cursor-pointer">
+                  <span className="link-primary" onClick={() => handleSort(column.name)}>{column.label} <FontAwesomeIcon
+                    icon={sensorPaging.sortBy === column.name ? sensorPaging.sortDirection === "asc" ? faSortUp : faSortDown : faSort} /></span>
+                  {" "}
+                  <span className="link-accent" onClick={() => removeColumn(column)}><FontAwesomeIcon
+                    icon={faCircleXmark} /></span>
+                </th>
               ))}
 
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody onMouseLeave={handleMouseLeave}>
+            {sensorData.map((item) => (
+              <tr className="hover" key={item.id}
+                onMouseMove={e => { handleMouseMove(e, item); }}>
+                <td>{item.id}</td>
+                <td>{item.sensorId}...</td>
+                <td>{item.direction}</td>
+                <td>{new Date(item.transmittedAt.iso).toLocaleString()}</td>
+                <td>{item.latitude}</td>
+                <td>{item.longitude}</td>
+                {addedColumns.map((column) => (
+                  <td key={item.id + "-" + column.name}>
+                    {column.name === "alarm" && (item.data.alarm ? "Yes" : "No")}
+                    {column.name === "state" && item.data.state}
+                    {column.name !== "state" && column.name !== "alarm" && typeof item.data[column.name].value !== "undefined" && item.data[column.name].value + " " + item.data[column.name].unit}
+                  </td>
+                ))}
+
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       {hoveredItem && (
-        <div className="fixed card mt-6 ml-6 w-96 bg-base-300 text-base-content"
+        <div className="hidden sm:card sm:fixed mt-6 ml-6 w-96 bg-base-300 text-base-content z-50"
           style={{ top: `${hoveredCoords.y}px`, left: `${hoveredCoords.x}px` }}>
           <div className="card-body text-left">
             <table className="text-xs w-full">
@@ -195,7 +197,7 @@ const SensorViewerTable = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 
 };

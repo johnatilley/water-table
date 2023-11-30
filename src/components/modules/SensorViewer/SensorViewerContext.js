@@ -11,6 +11,8 @@ const SensorViewerContext = createContext({
   setSensorPaging: () => {},
   sensorData: [],
   setSensorData: () => {},
+  filteredSensorData: [],
+  setFilteredSensorData: () => {},
   downloadedSensorData: [],
   setDownloadedSensorData: () => {},
 });

@@ -28,8 +28,20 @@ const SensorViewer = () => {
    */
   const [isLoaded, setIsLoaded] = useState(false); // We'll use this later
   const [progress, setProgress] = useState(0);
-  const [sensorFilter, setSensorFilter] = useState({});
-  const [sensorPaging, setSensorPaging] = useState({ page: 1, pageSize: 100, sortBy: "transmittedAt", sortDirection: "desc" });
+
+  const [sensorFilter, setSensorFilter] = useState({
+    id: "",
+    sensorId: "",
+    transmittedAtFrom: new Date(new Date().setFullYear(new Date().getFullYear() - 5)),
+    transmittedAtTo: new Date(),
+  });
+
+  const [sensorPaging, setSensorPaging] = useState({
+    page: 1,
+    pageSize: 50,
+    sortBy: "transmittedAt",
+    sortDirection: "desc"
+  });
 
   /**
    * This useEffect will download the data from the server and store it in the state
@@ -37,6 +49,8 @@ const SensorViewer = () => {
   useEffect(() => {
     setIsLoaded(false);
     setProgress(0);
+    // The server address is hardcoded here, but in a real app this would be in a config file or env variables.
+    // ie. I'm lazy and it's unpaid work after all :)
     axios
       .get("http://127.0.0.1:4000/api/river_sensor_data", {
         onDownloadProgress: ({ progress }) => {
@@ -49,6 +63,21 @@ const SensorViewer = () => {
           return { ...item, data: JSON.parse(atob(item.payload)), };
         });
 
+        // Go through all the data and find the min and max dates in transmittedAt and set the filter
+        // to those dates as a starting point
+        const minDate = new Date(newData.reduce((prev, curr) => {
+          return new Date(curr.transmittedAt.iso) < new Date(prev.transmittedAt.iso) ? curr : prev;
+        }).transmittedAt.iso);
+        const maxDate = new Date(newData.reduce((prev, curr) => {
+          return new Date(curr.transmittedAt.iso) > new Date(prev.transmittedAt.iso) ? curr : prev;
+        }).transmittedAt.iso);
+
+        setSensorFilter({
+          ...sensorFilter,
+          transmittedAtFrom: minDate,
+          transmittedAtTo: maxDate
+        });
+
         setDownloadedSensorData(newData);
         setIsLoaded(true);
       });
@@ -59,10 +88,17 @@ const SensorViewer = () => {
    */
   useEffect(() => {
     const filteredSensorData = downloadedSensorData.filter((item) => {
-      return true;
+      const isIdMatch = sensorFilter.id !== "" ? item.id.includes(sensorFilter.id) : true;
+      const isSensorIdMatch = sensorFilter.sensorId !== "" ? item.sensorId === sensorFilter.sensorId : true;
+
+      const isInDateRange = new Date(item.transmittedAt.iso) >= sensorFilter.transmittedAtFrom &&
+        new Date(item.transmittedAt.iso) <= sensorFilter.transmittedAtTo;
+
+      return isIdMatch && isSensorIdMatch && isInDateRange;
     });
 
     setFilteredSensorData(filteredSensorData);
+    setSensorPaging({ ...sensorPaging, page: parseInt(1) });
   }, [downloadedSensorData, sensorFilter]); // Run once
 
   /**
@@ -137,6 +173,8 @@ const SensorViewer = () => {
         setSensorPaging,
         sensorData,
         setSensorData,
+        filteredSensorData,
+        setFilteredSensorData,
         downloadedSensorData,
         setDownloadedSensorData,
       }}>
@@ -152,18 +190,18 @@ const SensorViewer = () => {
               <SensorViewerFilter />
 
               <Tab.Group>
-                <Tab.List className="flex justify-center items-center gap-4 mb-4">
+                <Tab.List className="flex justify-center items-center mb-4 join">
                   <Tab
-                    className="btn ui-selected:btn-primary ui-not-selected:btn-base">
-                    Table View
+                    className="btn ui-selected:btn-primary ui-not-selected:btn-base join-item">
+                    Table
                   </Tab>
                   <Tab
-                    className="btn ui-selected:btn-primary ui-not-selected:btn-base">
-                    Graph View
+                    className="btn ui-selected:btn-primary ui-not-selected:btn-base join-item">
+                    Graph
                   </Tab>
                   <Tab
-                    className="btn ui-selected:btn-primary ui-not-selected:btn-base">
-                    Map View
+                    className="btn ui-selected:btn-primary ui-not-selected:btn-base join-item">
+                    Map
                   </Tab>
                 </Tab.List>
                 <Tab.Panels>
