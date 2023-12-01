@@ -8,7 +8,7 @@ import SensorViewerContext from "../SensorViewerContext";
 
 const SensorViewerPagination = () => {
   const { sensorPaging, setSensorPaging, filteredSensorData } = useContext(SensorViewerContext);
-  const [goToPage, setGoToPage] = useState(null);
+  const [goToPage, setGoToPage] = useState("");
   const [goToPageError, setGoToPageError] = useState(false);
 
   // Get maximum number of pages based on sensorPaging.pageSize and filteredSensorData.length
@@ -103,7 +103,8 @@ const SensorViewerPagination = () => {
 
       <div className="join justify-self-center sm:justify-self-end">
         <input className={`join-item input input-bordered input-primary w-32 ${goToPageError && "input-warning"}`}
-          type="text" placeholder="Go to page" value={goToPage !== null ? goToPage : ""} onChange={(e) => setGoToPage(parseInt(e.target.value))} />
+          type="text" placeholder="Go to page" value={!isNaN(parseInt(goToPage?.replace(/\D/g, ""))) ? parseInt(goToPage?.replace(/\D/g, "")) : ""}
+          onChange={(e) => setGoToPage(e.target.value)} />
 
         <button className={`join-item btn btn-primary ${goToPageError && "btn-warning"}`}
           onClick={() => handleGoToPage(goToPage)}>
