@@ -5,8 +5,9 @@ import { Tab } from '@headlessui/react';
 import SensorViewerContext from './SensorViewerContext';
 
 import SensorViewerFilter from './components/SensorViewerFilter';
-import SensorViewerPagination from './components/SensorViewerPagination';
 import SensorViewerTable from './components/SensorViewerTable';
+import SensorViewerGraph from './components/SensorViewerGraph';
+import SensorViewerMap from './components/SensorViewerMap';
 
 
 /**
@@ -60,7 +61,11 @@ const SensorViewer = () => {
       .then((response) => {
         // Ideally the Server would decode the payload before sending it
         const newData = response.data.map((item) => {
-          return { ...item, data: JSON.parse(atob(item.payload)), };
+          return {
+            ...item,
+            data: JSON.parse(atob(item.payload)),
+            latlng: item.latitude + "," + item.longitude
+          };
         });
 
         // Go through all the data and find the min and max dates in transmittedAt and set the filter
@@ -72,11 +77,11 @@ const SensorViewer = () => {
           return new Date(curr.transmittedAt.iso) > new Date(prev.transmittedAt.iso) ? curr : prev;
         }).transmittedAt.iso);
 
-        setSensorFilter({
+        setSensorFilter(sensorFilter => ({
           ...sensorFilter,
           transmittedAtFrom: minDate,
           transmittedAtTo: maxDate
-        });
+        }));
 
         setDownloadedSensorData(newData);
         setIsLoaded(true);
@@ -98,7 +103,7 @@ const SensorViewer = () => {
     });
 
     setFilteredSensorData(filteredSensorData);
-    setSensorPaging({ ...sensorPaging, page: parseInt(1) });
+    setSensorPaging(sensorPaging => ({ ...sensorPaging, page: parseInt(1) }));
   }, [downloadedSensorData, sensorFilter]); // Run once
 
   /**
@@ -206,12 +211,14 @@ const SensorViewer = () => {
                 </Tab.List>
                 <Tab.Panels>
                   <Tab.Panel>
-                    <SensorViewerPagination />
                     <SensorViewerTable />
-                    <SensorViewerPagination />
                   </Tab.Panel>
-                  <Tab.Panel></Tab.Panel>
-                  <Tab.Panel></Tab.Panel>
+                  <Tab.Panel>
+                    <SensorViewerGraph />
+                  </Tab.Panel>
+                  <Tab.Panel>
+                    <SensorViewerMap />
+                  </Tab.Panel>
                 </Tab.Panels>
               </Tab.Group>
             </>

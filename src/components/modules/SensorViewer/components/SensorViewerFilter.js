@@ -52,7 +52,7 @@ const SensorViewerFilter = () => {
         {open ? "Close" : "Open"} Filters <FontAwesomeIcon icon={faFilter} />
       </button>
 
-      <AnimateHeight duration={500} height={open ? "auto" : 0} >
+      <AnimateHeight duration={500} height={open ? "auto" : 0}>
         <div className="bg-base-200 p-4 pb-6 rounded-xl mb-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
 
           <label className="form-control w-full">

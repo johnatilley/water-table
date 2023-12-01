@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSort, faSortUp, faSortDown, faPlus, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 
 import SensorViewerContext from "../SensorViewerContext";
+import SensorViewerPagination from './SensorViewerPagination';
 
 const SensorViewerTable = () => {
   const { sensorData, sensorPaging, setSensorPaging } = useContext(SensorViewerContext);
@@ -51,8 +52,8 @@ const SensorViewerTable = () => {
 
   return (
     <div className="relative">
-      <div className="flex justify-center mb-4 lg:absolute bottom-full left-0">
-        <Menu as="div" className="relative inline-block">
+    <div className="grid grid-cols-1 sm:grid-cols-3 justify-center items-center gap-4 mb-4 lg:mb-8">
+        <Menu as="div" className="relative inline-block sm:justify-self-start">
           <Menu.Button className="btn btn-primary">
             Add columns
             <FontAwesomeIcon icon={faPlus} />
@@ -82,9 +83,10 @@ const SensorViewerTable = () => {
             </Menu.Items>
           </Transition>
         </Menu>
+        <SensorViewerPagination />
       </div>
-      <div className="overflow-x-auto pt-4">
-        <table className="table table-zebra table-xs text-center mb-8">
+      <div className="overflow-x-auto rounded-md shadow-lg lg:mb-8">
+        <table className="table table-zebra table-xs text-center">
           <thead>
             <tr>
               <th className="lg:text-lg cursor-pointer">
@@ -104,12 +106,8 @@ const SensorViewerTable = () => {
                   icon={sensorPaging.sortBy === "transmittedAt" ? sensorPaging.sortDirection === "asc" ? faSortUp : faSortDown : faSort} /></span>
               </th>
               <th className="lg:text-lg cursor-pointer">
-                <span className="link-primary" onClick={() => handleSort("latitude")}>Latitude <FontAwesomeIcon
-                  icon={sensorPaging.sortBy === "latitude" ? sensorPaging.sortDirection === "asc" ? faSortUp : faSortDown : faSort} /></span>
-              </th>
-              <th className="lg:text-lg cursor-pointer">
-                <span className="link-primary" onClick={() => handleSort("longitude")}>Longitude <FontAwesomeIcon
-                  icon={sensorPaging.sortBy === "longitude" ? sensorPaging.sortDirection === "asc" ? faSortUp : faSortDown : faSort} /></span>
+                <span className="link-primary" onClick={() => handleSort("latlng")}>Coordinates <FontAwesomeIcon
+                  icon={sensorPaging.sortBy === "latlng" ? sensorPaging.sortDirection === "asc" ? faSortUp : faSortDown : faSort} /></span>
               </th>
               {addedColumns.map((column) => (
                 <th key={column.name} className="lg:text-lg cursor-pointer">
@@ -131,8 +129,7 @@ const SensorViewerTable = () => {
                 <td>{item.sensorId}...</td>
                 <td>{item.direction}</td>
                 <td>{new Date(item.transmittedAt.iso).toLocaleString()}</td>
-                <td>{item.latitude}</td>
-                <td>{item.longitude}</td>
+                <td>{item.latlng}</td>
                 {addedColumns.map((column) => (
                   <td key={item.id + "-" + column.name}>
                     {column.name === "alarm" && (item.data.alarm ? "Yes" : "No")}
@@ -145,6 +142,10 @@ const SensorViewerTable = () => {
             ))}
           </tbody>
         </table>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-3 justify-between items-center gap-4 mb-4 lg:mb-8">
+        <div></div>
+        <SensorViewerPagination />
       </div>
       {hoveredItem && (
         <div className="hidden sm:card sm:fixed mt-6 ml-6 w-96 bg-base-300 text-base-content z-50"

@@ -1,8 +1,8 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { range } from "lodash";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAnglesLeft, faAngleLeft, faAngleRight, faAnglesRight, faCaretRight } from "@fortawesome/free-solid-svg-icons";
+import { faAngleLeft, faAngleRight, faCaretRight } from "@fortawesome/free-solid-svg-icons";
 
 import SensorViewerContext from "../SensorViewerContext";
 
@@ -34,7 +34,7 @@ const SensorViewerPagination = () => {
   const pageRange = range(pageLimits[0], pageLimits[1] + 1);
 
   const handlePage = (newPage) => {
-    if (typeof newPage !== undefined && newPage > 0 && newPage <= maxPages) {
+    if (typeof newPage !== "undefined" && newPage > 0 && newPage <= maxPages) {
       setSensorPaging({
         ...sensorPaging,
         page: newPage
@@ -45,7 +45,7 @@ const SensorViewerPagination = () => {
   };
 
   const handleGoToPage = (newPage) => {
-    if (typeof newPage !== undefined && newPage !== null) {
+    if (typeof newPage !== "undefined" && newPage !== null) {
       if (newPage > 0 && newPage <= maxPages) {
         handlePage(newPage);
       } else {
@@ -55,18 +55,8 @@ const SensorViewerPagination = () => {
   };
 
   return (
-    <div className="relative">
-      <div className="hidden lg:join absolute right-0 mb-4">
-        <input className={`join-item input input-bordered input-primary w-32 ${goToPageError && "input-warning"}`}
-          type="text" placeholder="Go to page" value={goToPage !== null ? goToPage : ""} onChange={(e) => setGoToPage(parseInt(e.target.value))} />
-
-        <button className={`join-item btn btn-primary ${goToPageError && "btn-warning"}`}
-          onClick={() => handleGoToPage(goToPage)}>
-          <FontAwesomeIcon icon={faCaretRight} />
-        </button>
-      </div>
-
-      <div className="flex sm:hidden justify-center gap-2 mb-4">
+    <>
+      <div className="flex lg:hidden justify-center gap-2">
         <div className="join">
           <button className={`join-item btn ${currentPage === 1 && "btn-disabled"}`} onClick={() => handlePage(prevPage)}>
             <FontAwesomeIcon icon={faAngleLeft} />
@@ -80,7 +70,7 @@ const SensorViewerPagination = () => {
         </div>
       </div>
 
-      <div className="hidden sm:flex justify-center gap-2 mb-4">
+      <div className="hidden lg:flex justify-center gap-2">
         <div className="join">
           <button className={`join-item btn ${currentPage === 1 && "btn-disabled"}`} onClick={() => handlePage(prevPage)}>
             <FontAwesomeIcon icon={faAngleLeft} />
@@ -110,7 +100,17 @@ const SensorViewerPagination = () => {
           </button>
         </div>
       </div>
-    </div>
+
+      <div className="join justify-self-center sm:justify-self-end">
+        <input className={`join-item input input-bordered input-primary w-32 ${goToPageError && "input-warning"}`}
+          type="text" placeholder="Go to page" value={goToPage !== null ? goToPage : ""} onChange={(e) => setGoToPage(parseInt(e.target.value))} />
+
+        <button className={`join-item btn btn-primary ${goToPageError && "btn-warning"}`}
+          onClick={() => handleGoToPage(goToPage)}>
+          <FontAwesomeIcon icon={faCaretRight} />
+        </button>
+      </div>
+    </>
   );
 };
 
