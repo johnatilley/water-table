@@ -50,10 +50,9 @@ const SensorViewer = () => {
   useEffect(() => {
     setIsLoaded(false);
     setProgress(0);
-    // The server address is hardcoded here, but in a real app this would be in a config file or env variables.
-    // ie. I'm lazy and it's unpaid work after all :)
+    // The server address is configured in the .env file
     axios
-      .get("http://127.0.0.1:4000/api/river_sensor_data", {
+      .get(process.env.REACT_APP_API_SERVER + "/api/river_sensor_data", {
         onDownloadProgress: ({ progress }) => {
           setProgress(progress * 100);
         },

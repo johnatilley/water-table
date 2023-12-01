@@ -12,7 +12,9 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.2",
+    "cross-env": "^7.0.3",
     "date-fns": "^2.30.0",
+    "express": "^4.18.2",
     "lodash": "^4.17.21",
     "mapbox-gl": "^3.0.0",
     "react": "^18.2.0",
@@ -25,7 +27,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "concurrently \"npm:dev:*\"",
+    "start": "cross-env NODE_ENV=production pm2 start pm2.config.cjs",
+    "stop": "pm2 stop pm2.config.cjs",
+    "dev": "concurrently \"npm:dev:*\"",
     "dev:api": "node api.js",
     "dev:react": "react-scripts start",
     "build": "react-scripts build",
