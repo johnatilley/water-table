@@ -197,23 +197,16 @@ const SensorViewer = () => {
                 <Tab.List className="flex justify-center items-center mb-4 join">
                   <Tab
                     className="btn ui-selected:btn-primary ui-not-selected:btn-base join-item">
-                    Table
+                    Table view
                   </Tab>
                   <Tab
                     className="btn ui-selected:btn-primary ui-not-selected:btn-base join-item">
-                    Graph
-                  </Tab>
-                  <Tab
-                    className="btn ui-selected:btn-primary ui-not-selected:btn-base join-item">
-                    Map
+                    Map view
                   </Tab>
                 </Tab.List>
                 <Tab.Panels>
                   <Tab.Panel>
                     <SensorViewerTable />
-                  </Tab.Panel>
-                  <Tab.Panel>
-                    <SensorViewerGraph />
                   </Tab.Panel>
                   <Tab.Panel>
                     <SensorViewerMap />
