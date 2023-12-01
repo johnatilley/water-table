@@ -9,7 +9,7 @@ import SensorDatePicker from "./SensorDatePicker";
 
 const SensorViewerFilter = () => {
   const { sensorFilter, setSensorFilter, downloadedSensorData } = useContext(SensorViewerContext);
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const uniqueSensorIds = [...new Set(downloadedSensorData.map(item => item.sensorId))];
 

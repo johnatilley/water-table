@@ -7,7 +7,13 @@ Run these commands to get the app running
 ```
 git clone git@github.com:johnatilley/water-table.git
 npm install
-npm run start
+cp .env.example .env
+```
+
+Add your mapbox api key to .env in REACT_APP_MAP_BOX_API_KEY and then you're ready to start
+
+```
+npm run dev
 ```
 
 ## The brief
@@ -21,12 +27,12 @@ We're looking for a new screen to present and visualise the data from such a sen
 **Key Requirements**
 * Consume JSON sample data and decode sensor data
 * Present the data in tabular form; with appropriate:
-  * Formatting/styling for data types
-  * Arrangement and presentation
-  * Search/filtering capabilities
-  * UI performance for data size
-  * Cross browser and screen size considerations
-* Visualise the “sensor” data  
-  * Impress us by visualising some/all of the sensor data 
+* Formatting/styling for data types
+* Arrangement and presentation
+* Search/filtering capabilities
+* UI performance for data size
+* Cross browser and screen size considerations
+* Visualise the “sensor” data
+* Impress us by visualising some/all of the sensor data
 
 You'll be assessed on your code quality, visual presentation and attention to detail - it's okay to use external dependencies, but we expect to see sufficient original work to be able to assess your abilities!

@@ -7,7 +7,6 @@ import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 
 import SensorViewerContext from "../SensorViewerContext";
 import MapBox from "./MapBox";
-import { map, set } from "lodash";
 
 const SensorViewerMap = () => {
   const { filteredSensorData, sensorFilter } = useContext(SensorViewerContext);
@@ -25,7 +24,10 @@ const SensorViewerMap = () => {
    * Whenever the filters change we want to reformat the data to be used by the map
    */
   useEffect(() => {
-    if (sensorFilter.sensorId !== "") {
+    const uniqueSensorIds = [...new Set(filteredSensorData.map(item => item.sensorId))];
+
+    // The sensorId should be set and there should only be one unique sensorId
+    if (sensorFilter.sensorId !== "" && uniqueSensorIds.length === 1) {
       const formattedSensorData = filteredSensorData
         .sort((a, b) => {
           return new Date(a.transmittedAt.iso) > new Date(b.transmittedAt.iso) ? 1 : -1;
@@ -116,7 +118,7 @@ const SensorViewerMap = () => {
         return prev + parseFloat(curr.split(",")[1]);
       }, 0) / uniqueLatlngs.length;
 
-      setMapData({
+      setMapData(mapData => ({
         ...mapData,
         geoJsonData: newGeoJsonData,
         center: [centerLng, centerLat],
@@ -124,11 +126,11 @@ const SensorViewerMap = () => {
         selectedMonth: 0,
         month: Object.keys(monthlyData)[0],
         dataLoaded: true
-      });
+      }));
     } else {
-      setMapData({ ...mapData, dataLoaded: false });
+      setMapData(mapData => ({ ...mapData, dataLoaded: false }));
     }
-  }, [filteredSensorData]);
+  }, [sensorFilter, filteredSensorData]);
 
   return (
     <div>
@@ -166,11 +168,12 @@ const SensorViewerMap = () => {
         </div>
 
         <div className="mb-4">
-          <span className="text-center">
+          <p className="text-center mb-4 font-bold">
             {format(new Date(mapData.monthRange[mapData.selectedMonth]), "MMM yyyy")}
-          </span>
+          </p>
 
-          <input type="range" min={0} max={mapData.monthRange.length - 1} value={mapData.selectedMonth} className="range" step="1"
+          <input type="range" className="range range-secondary" step="1" min={0}
+            max={mapData.monthRange.length - 1} value={mapData.selectedMonth}
             onChange={(e) => setMapData({
               ...mapData, selectedMonth: e.target.value, month: mapData.monthRange[e.target.value]
             })} />
