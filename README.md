@@ -1,5 +1,17 @@
 # Water Table!
 
+## Solution Quick Start
+
+Run these commands to get the app running
+
+```
+git clone git@github.com:johnatilley/water-table.git
+npm install
+npm run start
+```
+
+## The brief
+
 Our satellite products are used across the world for environmental, industrial and IoT applications; in many cases they're used to periodically capture and transmit remote sensor data. Typical monitoring applications include: oil/gas pipelines, glaciers, oceanic buoys and river sensors.
 
 
